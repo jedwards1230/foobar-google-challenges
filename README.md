@@ -15,4 +15,4 @@ I was invited to participate in the Google foobar challenge. These are my submis
 
 [Bomb, Baby!](/level3/bomb-baby)
 
-[The Grandest Staircase Of Them All](/level3/grandest-staircase)
+[The Grandest Staircase Of Them All](/level3/grandest-staircase) (in progress)
