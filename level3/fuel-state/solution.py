@@ -2,6 +2,11 @@ from fractions import Fraction
 
 
 def solution(m):
+    def print_matrix(m):
+        print('---------------------')
+        for x in m:
+            print(x)
+            
     # [Q, R]
     # [0, I]
     def get_sub_matrices(m, n_transients):
@@ -58,16 +63,16 @@ def solution(m):
         size = len(m)
 
         zero_row = -1
-        for r in range(size):
+        for i in range(size):
             sum = 0
-            for c in range(size):
-                sum += m[r][c]
+            for j in range(size):
+                sum += m[i][j]
             if sum == 0:
                 # we have found all-zero row, remember it
-                zero_row = r
+                zero_row = i
             if sum != 0 and zero_row > -1:
                 # we have found non-zero row after all-zero row - swap these rows
-                n = swap(m, r, zero_row)
+                n = swap(m, i, zero_row)
                 # and repeat from the begining
                 return to_standard_form(n)
         return m
@@ -161,12 +166,15 @@ def solution(m):
         to_fraction = [(i*lcm).numerator for i in to_fraction]
         to_fraction.append(lcm)
         return to_fraction
-    
+
     
     if len(m)==1:
         if len(m[0]) == 1 and m[0][0] == 0:
-            print([1, 1])
+            #print([1, 1])
             return [1, 1]
+            
+    # sort matrix
+    m = to_standard_form(m)
     
     sums = [sum(i) for i in m]
     n_transients = 0
@@ -178,9 +186,6 @@ def solution(m):
             m[i][i] = 1
         else:
             n_transients += 1
-            
-    # sort matrix
-    m = to_standard_form(m)
     
     # convert each int to a probability
     sums = [sum(i) for i in m]
@@ -203,10 +208,15 @@ def solution(m):
     s = subtract_matrix(I, Q)
     F = getMatrixInverse(s)
     FR = multiply_matrix(F, R)
-    
-    print(sanitize(FR))
 
     return sanitize(FR)
+
+x = solution([ 
+                [0, 0, 0, 3, 4], 
+                [0, 0, 0, 0, 0], 
+                [0, 0, 0, 0, 0], 
+                [0, 0, 0, 0, 0],
+                [0, 2, 1, 0, 0]])
 
 assert(solution([[0, 2, 1, 0, 0], 
                 [0, 0, 0, 3, 4], 
