@@ -25,19 +25,19 @@ def solution(M, F):
     def activate_bombs(a, b):
         return a - b
     
-    def check_end(mi, fi):
+    def check_end(a, b):
         end = False
         s = False
-        if mi == 1 and fi == 1:
+        if a == 1 and b == 1:
             end = True
             s = True
-        if mi == 0 and fi == 1 or mi == 1 and fi == 0:
+        if a == 0 and b == 1 or a == 1 and b == 0:
             end = True
             s = True
         # check for edge cases
-        if mi == fi:
+        if a == b:
             end = True
-        if mi < 1 or fi < 1:
+        if a < 1 or b < 1:
             end = True
         return end, s
                 
@@ -47,25 +47,18 @@ def solution(M, F):
     success = False
     
     mi, fi, count = shortcut(mi, fi)
+    end, success = check_end(mi, fi)
     
-    while not end:
-        #print(mi, fi)
-        
-        # check for success
-        end, success = check_end(mi, fi)
+    while not end and not success:
+        count += 1
         
         if fi > mi:
-            end, success = check_end(fi, mi)
             fi = activate_bombs(fi, mi)
         elif mi > fi:
-            end, success = check_end(mi, fi)
             mi = activate_bombs(mi, fi)
         
-        if success:
-            break
-        else:
-            count += 1
-    
+        end, success = check_end(mi, fi)
+            
     if success:
         res = str(count)
     else:
@@ -74,7 +67,7 @@ def solution(M, F):
     return res
 
 x = solution('100', '99')
-x = solution(str(10**50), str(10**49))
+x = solution(str(10**50), str(10**30))
 
 assert(solution('2', '4')) == 'impossible'
 
